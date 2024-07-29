@@ -21,11 +21,12 @@ export class TodosController {
   };
   public getTodoById = (req: Request, res: Response) => {
     const id = +req.params.id;
-    if (!id) return res.status(400).json({ message: "Invalid id" });
+    if (!id)
+      return res.status(400).json({ message: "ID argument is not a number" });
 
     const todo = this.getTodoFindId(id);
     if (!todo) {
-      return res.status(404).json({ message: "Todo not found" });
+      return res.status(404).json({ message: "TODO not found" });
     }
     return res.json(todo);
   };
@@ -35,7 +36,7 @@ export class TodosController {
 
   public createTodo = (req: Request, res: Response) => {
     const { text } = req.body;
-    if (!text) return res.status(400).json({ message: "Invalid text" });
+    if (!text) return res.status(400).json({ message: "text is required" });
 
     const newTodo: Todo = {
       id: this.todos.length + 1,
@@ -49,10 +50,11 @@ export class TodosController {
   public updateTodo = (req: Request, res: Response) => {
     const id = +req.params.id;
     const { text, completedAt } = req.body;
-    if (!id) return res.status(400).json({ message: "Invalid data" });
+    if (!id)
+      return res.status(400).json({ message: "ID argument is not a number" });
 
     const todo = this.getTodoFindId(id);
-    if (!todo) return res.status(404).json({ message: "Todo not found" });
+    if (!todo) return res.status(404).json({ message: "TODO not found" });
     const index = this.todos.indexOf(todo);
 
     this.todos[index] = {
@@ -66,13 +68,14 @@ export class TodosController {
 
   public deleteTodo = (req: Request, res: Response) => {
     const id = +req.params.id;
-    if (!id) return res.status(400).json({ message: "Invalid id" });
+    if (!id)
+      return res.status(400).json({ message: "ID argument is not a number" });
 
     const todo = this.getTodoFindId(id);
-    if (!todo) return res.status(404).json({ message: "Todo not found" });
+    if (!todo) return res.status(404).json({ message: "TODO not found" });
 
     const index = this.todos.indexOf(todo);
     this.todos.splice(index, 1);
-    res.json({ message: "Todo deleted" });
+    res.json({ message: "TODO deleted" });
   };
 }
